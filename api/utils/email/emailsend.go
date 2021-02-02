@@ -18,7 +18,7 @@ func SendEmail2(email, otp string) {
 	}
 
 	// smtp server configuration.
-	smtpHost := "smtp.gmail.com"
+	smtpHost := os.Getenv("SMTP_HOST")
 	smtpPort := "587"
 
 	// Message.
