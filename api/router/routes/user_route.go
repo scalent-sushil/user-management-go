@@ -15,20 +15,20 @@ var userRoutes = []Route{
 		AuthRequired: true,
 	},
 	Route{
-		Url:          "/user/{id}",
+		Url:          "/user/update",
 		Method:       http.MethodPut,
 		Handler:      controllers.UpdateUser,
 		AuthRequired: true,
 	},
 
 	Route{
-		Url:          "/profilepic",
+		Url:          "/user/profilepic",
 		Method:       http.MethodPut,
 		Handler:      controllers.UploadImage,
 		AuthRequired: true,
 	},
 	Route{
-		Url:          "/changepassword",
+		Url:          "/user/changepassword",
 		Method:       http.MethodPut,
 		Handler:      controllers.ChangePassword,
 		AuthRequired: true,

@@ -9,37 +9,37 @@ import (
 var BlogsRoutes = []Route{
 
 	Route{
-		Url:          "/blogcreate",
+		Url:          "/user/blogcreate",
 		Method:       http.MethodPost,
 		Handler:      controllers.CreateBlog,
 		AuthRequired: true,
 	},
 
 	Route{
-		Url:          "/blogs",
+		Url:          "/user/blogs",
 		Method:       http.MethodGet,
 		Handler:      controllers.GetBlogs,
 		AuthRequired: true,
 	},
 
 	Route{
-		Url:          "/blog/{id}",
+		Url:          "/user/blog/{id}",
 		Method:       http.MethodGet,
 		Handler:      controllers.GetBlog,
 		AuthRequired: true,
 	},
 
 	Route{
-		Url:          "/blog/{id}",
+		Url:          "/user/blog/{id}",
 		Method:       http.MethodPut,
 		Handler:      controllers.Updateblog,
 		AuthRequired: true,
 	},
 
 	Route{
-		Url:     "/blog/{id}",
-		Method:  http.MethodDelete,
-		Handler: controllers.Deleteblog,
-		// AuthRequired: false,
+		Url:          "/user/blog/{id}",
+		Method:       http.MethodDelete,
+		Handler:      controllers.Deleteblog,
+		AuthRequired: true,
 	},
 }

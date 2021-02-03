@@ -152,12 +152,12 @@ func ChangePassword(w http.ResponseWriter, r *http.Request) {
 // UpdateUser function is use to update user details like name
 func UpdateUser(w http.ResponseWriter, r *http.Request) {
 
-	vars := mux.Vars(r)
-	id, err := strconv.ParseUint(vars["id"], 10, 32)
-	if err != nil {
-		responses.ERROR(w, http.StatusBadRequest, err)
-		return
-	}
+	// vars := mux.Vars(r)
+	// id, err := strconv.ParseUint(vars["id"], 10, 32)
+	// if err != nil {
+	// 	responses.ERROR(w, http.StatusBadRequest, err)
+	// 	return
+	// }
 
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
@@ -184,22 +184,21 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	repo := crud.NewRepositoryUsersCURD(db)
-	if userID != uint32(id) {
-		responses.ERROR(w, http.StatusUnauthorized, err)
-		return
-	}
+	// if userID != uint32(id) {
+	// 	responses.ERROR(w, http.StatusUnauthorized, err)
+	// 	return
+	// }
 
-	if userID == uint32(id) {
-		func(UserRepository repository.UserRepository) {
-			rows, err := UserRepository.Update(uint32(id), user)
-			if err != nil {
-				responses.ERROR(w, http.StatusBadRequest, err)
-				return
-			}
+	func(UserRepository repository.UserRepository) {
+		rows, err := UserRepository.Update(userID, user)
+		if err != nil {
+			responses.ERROR(w, http.StatusBadRequest, err)
+			return
+		}
 
-			responses.JSON(w, http.StatusOK, rows)
-		}(repo)
-	}
+		responses.JSON(w, http.StatusOK, rows)
+	}(repo)
+
 }
 
 //ADMIN PART
