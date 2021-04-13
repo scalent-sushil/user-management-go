@@ -4,8 +4,8 @@ import (
 	"errors"
 	"time"
 
-	"github.com/yadavsushil07/user-management/api/models"
-	"github.com/yadavsushil07/user-management/api/utils/channels"
+	"github.com/scalent-sushil/user-management-go/api/models"
+	"github.com/scalent-sushil/user-management-go/api/utils/channels"
 
 	"gorm.io/gorm"
 )

@@ -6,12 +6,12 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/yadavsushil07/user-management/api/auth"
-	"github.com/yadavsushil07/user-management/api/database"
-	"github.com/yadavsushil07/user-management/api/models"
-	"github.com/yadavsushil07/user-management/api/repository"
-	"github.com/yadavsushil07/user-management/api/repository/crud"
-	"github.com/yadavsushil07/user-management/api/responses"
+	"github.com/scalent-sushil/user-management-go/api/auth"
+	"github.com/scalent-sushil/user-management-go/api/database"
+	"github.com/scalent-sushil/user-management-go/api/models"
+	"github.com/scalent-sushil/user-management-go/api/repository"
+	"github.com/scalent-sushil/user-management-go/api/repository/crud"
+	"github.com/scalent-sushil/user-management-go/api/responses"
 
 	"github.com/gorilla/mux"
 )

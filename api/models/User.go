@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/yadavsushil07/user-management/api/security"
+	"github.com/scalent-sushil/user-management-go/api/security"
 
 	"github.com/badoux/checkmail"
 	"gorm.io/gorm"

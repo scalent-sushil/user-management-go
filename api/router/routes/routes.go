@@ -3,7 +3,7 @@ package routes
 import (
 	"net/http"
 
-	"github.com/yadavsushil07/user-management/api/middlewares"
+	"github.com/scalent-sushil/user-management-go/api/middlewares"
 
 	"github.com/gorilla/mux"
 )

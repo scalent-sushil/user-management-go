@@ -7,8 +7,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/yadavsushil07/user-management/api/utils/console"
-	"github.com/yadavsushil07/user-management/config"
+	"github.com/scalent-sushil/user-management-go/api/utils/console"
+	"github.com/scalent-sushil/user-management-go/config"
 
 	jwt "github.com/dgrijalva/jwt-go"
 )

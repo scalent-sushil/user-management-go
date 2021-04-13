@@ -5,11 +5,11 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/yadavsushil07/user-management/auto"
+	"github.com/scalent-sushil/user-management-go/auto"
 
-	"github.com/yadavsushil07/user-management/config"
+	"github.com/scalent-sushil/user-management-go/config"
 
-	"github.com/yadavsushil07/user-management/api/router"
+	"github.com/scalent-sushil/user-management-go/api/router"
 )
 
 func Run() {

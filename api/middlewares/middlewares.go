@@ -4,8 +4,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/yadavsushil07/user-management/api/auth"
-	"github.com/yadavsushil07/user-management/api/responses"
+	"github.com/scalent-sushil/user-management-go/api/auth"
+	"github.com/scalent-sushil/user-management-go/api/responses"
 )
 
 // SetMiddlewareLogger this function is use to display method ,host ,etc to the user

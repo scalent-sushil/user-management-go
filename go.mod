@@ -1,4 +1,4 @@
-module github.com/yadavsushil07/user-management
+module github.com/scalent-sushil/user-management-go
 
 go 1.15
 

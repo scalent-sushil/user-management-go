@@ -7,11 +7,11 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/yadavsushil07/user-management/api/auth"
-	"github.com/yadavsushil07/user-management/api/models"
-	"github.com/yadavsushil07/user-management/api/responses"
-	"github.com/yadavsushil07/user-management/api/security"
-	"github.com/yadavsushil07/user-management/api/utils/email"
+	"github.com/scalent-sushil/user-management-go/api/auth"
+	"github.com/scalent-sushil/user-management-go/api/models"
+	"github.com/scalent-sushil/user-management-go/api/responses"
+	"github.com/scalent-sushil/user-management-go/api/security"
+	"github.com/scalent-sushil/user-management-go/api/utils/email"
 )
 
 // Login fuction is use to login for user  .

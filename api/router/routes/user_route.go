@@ -3,7 +3,7 @@ package routes
 import (
 	"net/http"
 
-	"github.com/yadavsushil07/user-management/api/controllers"
+	"github.com/scalent-sushil/user-management-go/api/controllers"
 )
 
 var userRoutes = []Route{

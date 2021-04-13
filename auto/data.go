@@ -1,7 +1,7 @@
 package auto
 
 import (
-	"github.com/yadavsushil07/user-management/api/models"
+	"github.com/scalent-sushil/user-management-go/api/models"
 )
 
 var users = []models.User{
