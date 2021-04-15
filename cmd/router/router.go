@@ -1,7 +1,7 @@
 package router
 
 import (
-	"github.com/scalent-sushil/user-management-go/api/router/routes"
+	"github.com/scalent-sushil/user-management-go/cmd/router/routes"
 
 	"github.com/gorilla/mux"
 )

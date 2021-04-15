@@ -3,7 +3,7 @@ package routes
 import (
 	"net/http"
 
-	"github.com/scalent-sushil/user-management-go/api/controllers"
+	controllers "github.com/scalent-sushil/user-management-go/pkg/handler"
 )
 
 var LoginRoutes = []Route{

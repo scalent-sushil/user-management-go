@@ -3,9 +3,9 @@ package auto
 import (
 	"log"
 
-	"github.com/scalent-sushil/user-management-go/api/database"
-	"github.com/scalent-sushil/user-management-go/api/models"
-	"github.com/scalent-sushil/user-management-go/api/utils/console"
+	"github.com/scalent-sushil/user-management-go/database"
+	"github.com/scalent-sushil/user-management-go/pkg/models"
+	"github.com/scalent-sushil/user-management-go/utils/console"
 )
 
 func Load() {
