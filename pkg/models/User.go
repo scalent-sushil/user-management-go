@@ -24,7 +24,7 @@ type User struct {
 	Status     string    `json:"status"`
 	CreatedAt  time.Time `gorm:"default:current_timestamp()" json:"created_at"`
 	UpdatedAt  time.Time `gorm:"default:current_timestamp()" json:"updated_at"`
-	// Blog       []Blog    `gorm:"foreignkey:AuthorID"json:"Blog"`
+	Blog       []Blog    `gorm:"foreignkey:AuthorID"json:"Blog"`
 }
 
 // BeforeSave this function is of gorm in this fuction we convert the password into hash
