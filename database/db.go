@@ -1,7 +1,7 @@
 package database
 
 import (
-	"github.com/scalent-sushil/user-management-go/config"
+	"github.com/scalent-sushil/user-management-go/cmd/config"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"

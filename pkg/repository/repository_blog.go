@@ -1,6 +1,6 @@
 package repository
 
-import "github.com/scalent-sushil/user-management-go/api/models"
+import "github.com/scalent-sushil/user-management-go/pkg/models"
 
 type BlogRepository interface {
 	Save(models.Blog) (models.Blog, error)

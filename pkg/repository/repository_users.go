@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"github.com/scalent-sushil/user-management-go/api/models"
+	"github.com/scalent-sushil/user-management-go/pkg/models"
 )
 
 type UserRepository interface {

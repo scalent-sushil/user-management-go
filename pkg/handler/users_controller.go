@@ -9,12 +9,12 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/scalent-sushil/user-management-go/api/auth"
-	"github.com/scalent-sushil/user-management-go/api/database"
-	"github.com/scalent-sushil/user-management-go/api/models"
-	"github.com/scalent-sushil/user-management-go/api/repository"
-	"github.com/scalent-sushil/user-management-go/api/repository/crud"
-	"github.com/scalent-sushil/user-management-go/api/responses"
+	"github.com/scalent-sushil/user-management-go/cmd/auth"
+	"github.com/scalent-sushil/user-management-go/cmd/responses"
+	"github.com/scalent-sushil/user-management-go/database"
+	"github.com/scalent-sushil/user-management-go/pkg/models"
+	"github.com/scalent-sushil/user-management-go/pkg/repository"
+	"github.com/scalent-sushil/user-management-go/pkg/repository/crud"
 
 	"github.com/gorilla/mux"
 )
