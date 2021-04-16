@@ -1,6 +1,6 @@
 package main
 
-import "github.com/scalent-sushil/user-management-go/api"
+import api "github.com/scalent-sushil/user-management-go/cmd"
 
 func main() {
 	api.Run()
