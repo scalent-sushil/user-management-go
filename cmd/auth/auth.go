@@ -3,10 +3,10 @@ package auth
 import (
 	"fmt"
 
-	"github.com/scalent-sushil/user-management/cmd/security"
-	"github.com/scalent-sushil/user-management/database"
-	"github.com/scalent-sushil/user-management/pkg/models"
-	"github.com/scalent-sushil/user-management/utils/channels"
+	"github.com/scalent-sushil/user-management-go/cmd/security"
+	"github.com/scalent-sushil/user-management-go/database"
+	"github.com/scalent-sushil/user-management-go/pkg/models"
+	"github.com/scalent-sushil/user-management-go/utils/channels"
 
 	"gorm.io/gorm"
 )
