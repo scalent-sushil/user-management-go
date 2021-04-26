@@ -34,11 +34,11 @@ func Load() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		blogs[i].AuthorID = users[i].ID
-		err = db.Debug().Model(&models.Blog{}).Create(&blogs).Error
-		if err != nil {
-			log.Fatal(err)
-		}
+		// blogs[i].AuthorID = users[i].ID
+		// err = db.Debug().Model(&models.Blog{}).Create(&blogs).Error
+		// if err != nil {
+		// 	log.Fatal(err)
+		// }
 		// err = db.Debug().Model(&blogs[i]).Related(&blogs[i].AuthorName).Error
 		// if err != nil {
 		// 	log.Fatal(err)

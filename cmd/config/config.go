@@ -2,11 +2,8 @@ package config
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"strconv"
-
-	"github.com/joho/godotenv"
 )
 
 var (
@@ -18,10 +15,10 @@ var (
 
 func Load() {
 	var err error
-	err = godotenv.Load()
-	if err != nil {
-		log.Fatal(err)
-	}
+	// err = godotenv.Load()
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
 	PORT, err = strconv.Atoi(os.Getenv("API_PORT"))
 	if err != nil {
 		PORT = 8080

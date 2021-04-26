@@ -3,7 +3,7 @@ package routes
 import (
 	"net/http"
 
-	controllers "github.com/scalent-sushil/user-management-go/pkg/handler"
+	"github.com/scalent-sushil/user-management-go/pkg/handler"
 )
 
 var BlogsRoutes = []Route{
@@ -11,35 +11,35 @@ var BlogsRoutes = []Route{
 	Route{
 		Url:          "/user/blogcreate",
 		Method:       http.MethodPost,
-		Handler:      controllers.CreateBlog,
+		Handler:      handler.CreateBlog,
 		AuthRequired: true,
 	},
 
 	Route{
 		Url:          "/user/blogs",
 		Method:       http.MethodGet,
-		Handler:      controllers.GetBlogs,
+		Handler:      handler.GetBlogs,
 		AuthRequired: true,
 	},
 
 	Route{
 		Url:          "/user/blog/{id}",
 		Method:       http.MethodGet,
-		Handler:      controllers.GetBlog,
+		Handler:      handler.GetBlog,
 		AuthRequired: true,
 	},
 
 	Route{
 		Url:          "/user/blog/{id}",
 		Method:       http.MethodPut,
-		Handler:      controllers.Updateblog,
+		Handler:      handler.Updateblog,
 		AuthRequired: true,
 	},
 
 	Route{
 		Url:          "/user/blog/{id}",
 		Method:       http.MethodDelete,
-		Handler:      controllers.Deleteblog,
+		Handler:      handler.Deleteblog,
 		AuthRequired: true,
 	},
 }

@@ -3,38 +3,38 @@ package routes
 import (
 	"net/http"
 
-	controllers "github.com/scalent-sushil/user-management-go/pkg/handler"
+	"github.com/scalent-sushil/user-management-go/pkg/handler"
 )
 
 var LoginRoutes = []Route{
 	Route{
 		Url:          "/login",
 		Method:       http.MethodPost,
-		Handler:      controllers.Login,
+		Handler:      handler.Login,
 		AuthRequired: false,
 	},
 	Route{
 		Url:          "/adminlogin",
 		Method:       http.MethodPost,
-		Handler:      controllers.AdminLogin,
+		Handler:      handler.AdminLogin,
 		AuthRequired: false,
 	},
 	Route{
 		Url:          "/registration",
 		Method:       http.MethodPost,
-		Handler:      controllers.Registration,
+		Handler:      handler.Registration,
 		AuthRequired: false,
 	},
 	Route{
 		Url:          "/forgotpassword",
 		Method:       http.MethodPost,
-		Handler:      controllers.ForgotPassword,
+		Handler:      handler.ForgotPassword,
 		AuthRequired: false,
 	},
 	Route{
 		Url:          "/newpassword",
 		Method:       http.MethodPost,
-		Handler:      controllers.NewPassword,
+		Handler:      handler.NewPassword,
 		AuthRequired: false,
 	},
 }
