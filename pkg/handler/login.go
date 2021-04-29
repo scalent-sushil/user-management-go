@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/go-playground/validator"
 	"github.com/scalent-sushil/user-management-go/cmd/auth"
 	"github.com/scalent-sushil/user-management-go/cmd/responses"
 	"github.com/scalent-sushil/user-management-go/cmd/security"
@@ -30,11 +31,16 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	user.Prepare()
-	err = user.Validate("login")
+	validate := validator.New()
+	err = validate.Struct(user)
 	if err != nil {
-		responses.ERROR(w, http.StatusUnprocessableEntity, err)
-		return
+		fmt.Println(err.Error())
 	}
+	// err = user.Validate("login")
+	// if err != nil {
+	// 	responses.ERROR(w, http.StatusUnprocessableEntity, err)
+	// 	return
+	// }
 
 	token, err := auth.SignIn(user.Email, user.Password)
 	if err != nil {
@@ -56,11 +62,16 @@ func Registration(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	user.Prepare()
-	err = user.Validate("login")
+	validate := validator.New()
+	err = validate.Struct(user)
 	if err != nil {
-		responses.ERROR(w, http.StatusUnprocessableEntity, err)
-		return
+		fmt.Println(err.Error())
 	}
+	// err = user.Validate("login")
+	// if err != nil {
+	// 	responses.ERROR(w, http.StatusUnprocessableEntity, err)
+	// 	return
+	// }
 
 	token, err := auth.SignUp(user.Email, user.Password)
 	if err != nil {
@@ -86,11 +97,16 @@ func AdminLogin(w http.ResponseWriter, r *http.Request) {
 	}
 
 	user.Prepare()
-	err = user.Validate("login")
+	validate := validator.New()
+	err = validate.Struct(user)
 	if err != nil {
-		responses.ERROR(w, http.StatusUnprocessableEntity, err)
-		return
+		fmt.Println(err.Error())
 	}
+	// err = user.Validate("login")
+	// if err != nil {
+	// 	responses.ERROR(w, http.StatusUnprocessableEntity, err)
+	// 	return
+	// }
 
 	token, err := auth.AdminSignIn(user.Email, user.Password)
 	if err != nil {

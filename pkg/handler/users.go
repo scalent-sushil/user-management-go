@@ -22,11 +22,11 @@ import (
 // UserProfile function return the user profile by taking the userID as parameter ..
 func UserProfile(w http.ResponseWriter, r *http.Request) {
 
-	db, err := database.Connect()
-	if err != nil {
-		responses.ERROR(w, http.StatusInternalServerError, err)
-		return
-	}
+	// db, err := database.Connect()
+	// if err != nil {
+	// 	responses.ERROR(w, http.StatusInternalServerError, err)
+	// 	return
+	// }
 
 	// defer db.Close()
 	userID, _, err := auth.ExtractClaim(r) // userID is fetch from the token of the user loged in
@@ -34,7 +34,7 @@ func UserProfile(w http.ResponseWriter, r *http.Request) {
 		responses.ERROR(w, http.StatusUnauthorized, err)
 		return
 	}
-	repo := crud.NewRepositoryUsersCURD(db)
+	repo := crud.NewRepositoryUsersCURD(database.DB)
 	func(UserRepository repository.UserRepository) {
 		user, err := UserRepository.User(uint32(userID)) //userID pased as parameter
 		if err != nil {
@@ -55,17 +55,17 @@ func UploadImage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	user := models.User{}
-	db, err := database.Connect()
-	if err != nil {
-		responses.ERROR(w, http.StatusInternalServerError, err)
-		return
-	}
+	// db, err := database.Connect()
+	// if err != nil {
+	// 	responses.ERROR(w, http.StatusInternalServerError, err)
+	// 	return
+	// }
 	userID, _, err := auth.ExtractClaim(r)
 	if err != nil {
 		responses.ERROR(w, http.StatusUnauthorized, err)
 		return
 	}
-	repo := crud.NewRepositoryUsersCURD(db)
+	repo := crud.NewRepositoryUsersCURD(database.DB)
 	fmt.Println(user.ID)
 
 	func(UserRepository repository.UserRepository) {
@@ -128,15 +128,15 @@ func ChangePassword(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	db, err := database.Connect()
-	if err != nil {
-		responses.ERROR(w, http.StatusInternalServerError, err)
-		return
-	}
+	// db, err := database.Connect()
+	// if err != nil {
+	// 	responses.ERROR(w, http.StatusInternalServerError, err)
+	// 	return
+	// }
 
 	// defer db.Close()
 
-	repo := crud.NewRepositoryUsersCURD(db)
+	repo := crud.NewRepositoryUsersCURD(database.DB)
 	func(UserRepository repository.UserRepository) {
 		rows, err := UserRepository.ResetPassword(userID, user)
 		if err != nil {
@@ -177,13 +177,13 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	db, err := database.Connect()
-	if err != nil {
-		responses.ERROR(w, http.StatusInternalServerError, err)
-		return
-	}
+	// db, err := database.Connect()
+	// if err != nil {
+	// 	responses.ERROR(w, http.StatusInternalServerError, err)
+	// 	return
+	// }
 
-	repo := crud.NewRepositoryUsersCURD(db)
+	repo := crud.NewRepositoryUsersCURD(database.DB)
 	// if userID != uint32(id) {
 	// 	responses.ERROR(w, http.StatusUnauthorized, err)
 	// 	return
@@ -206,18 +206,18 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 // AdminGetUsers function is use to by admin to fetch all users
 func AdminGetUsers(w http.ResponseWriter, r *http.Request) {
 
-	db, err := database.Connect()
-	if err != nil {
-		responses.ERROR(w, http.StatusInternalServerError, err)
-		return
-	}
+	// db, err := database.Connect()
+	// if err != nil {
+	// 	responses.ERROR(w, http.StatusInternalServerError, err)
+	// 	return
+	// }
 
 	_, userType, err := auth.ExtractClaim(r)
 	if err != nil {
 		responses.ERROR(w, http.StatusUnauthorized, err)
 		return
 	}
-	repo := crud.NewRepositoryUsersCURD(db)
+	repo := crud.NewRepositoryUsersCURD(database.DB)
 	if userType == "admin" {
 		func(UserRepository repository.UserRepository) {
 			users, err := UserRepository.FindAll()
@@ -242,17 +242,17 @@ func AdminUploadImage(w http.ResponseWriter, r *http.Request) {
 
 	name, err := FileUpload(r)
 	user := models.User{}
-	db, err := database.Connect()
-	if err != nil {
-		responses.ERROR(w, http.StatusInternalServerError, err)
-		return
-	}
+	// db, err := database.Connect()
+	// if err != nil {
+	// 	responses.ERROR(w, http.StatusInternalServerError, err)
+	// 	return
+	// }
 	_, userType, err := auth.ExtractClaim(r)
 	if err != nil {
 		responses.ERROR(w, http.StatusUnauthorized, err)
 		return
 	}
-	repo := crud.NewRepositoryUsersCURD(db)
+	repo := crud.NewRepositoryUsersCURD(database.DB)
 	if userType == "admin" {
 		func(UserRepository repository.UserRepository) {
 			user.ProfilePic = name
@@ -274,11 +274,11 @@ func AdminUploadImage(w http.ResponseWriter, r *http.Request) {
 // AdminProfile function return the profile of the admin
 func AdminProfile(w http.ResponseWriter, r *http.Request) {
 
-	db, err := database.Connect()
-	if err != nil {
-		responses.ERROR(w, http.StatusInternalServerError, err)
-		return
-	}
+	// db, err := database.Connect()
+	// if err != nil {
+	// 	responses.ERROR(w, http.StatusInternalServerError, err)
+	// 	return
+	// }
 
 	// defer db.Close()
 	_, userType, err := auth.ExtractClaim(r)
@@ -286,7 +286,7 @@ func AdminProfile(w http.ResponseWriter, r *http.Request) {
 		responses.ERROR(w, http.StatusUnauthorized, err)
 		return
 	}
-	repo := crud.NewRepositoryUsersCURD(db)
+	repo := crud.NewRepositoryUsersCURD(database.DB)
 	if userType == "admin" {
 		func(UserRepository repository.UserRepository) {
 			admin, err := UserRepository.Admin()
@@ -313,17 +313,17 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 		responses.ERROR(w, http.StatusBadRequest, err)
 		return
 	}
-	db, err := database.Connect()
-	if err != nil {
-		responses.ERROR(w, http.StatusInternalServerError, err)
-		return
-	}
+	// db, err := database.Connect()
+	// if err != nil {
+	// 	responses.ERROR(w, http.StatusInternalServerError, err)
+	// 	return
+	// }
 	_, userType, err := auth.ExtractClaim(r)
 	if err != nil {
 		responses.ERROR(w, http.StatusUnauthorized, err)
 		return
 	}
-	repo := crud.NewRepositoryUsersCURD(db)
+	repo := crud.NewRepositoryUsersCURD(database.DB)
 
 	if userType == "admin" {
 		func(UserRepository repository.UserRepository) {
@@ -359,11 +359,11 @@ func AdminUpdateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	db, err := database.Connect()
-	if err != nil {
-		responses.ERROR(w, http.StatusInternalServerError, err)
-		return
-	}
+	// db, err := database.Connect()
+	// if err != nil {
+	// 	responses.ERROR(w, http.StatusInternalServerError, err)
+	// 	return
+	// }
 
 	// defer db.Close()
 	_, userType, err := auth.ExtractClaim(r)
@@ -371,7 +371,7 @@ func AdminUpdateUser(w http.ResponseWriter, r *http.Request) {
 		responses.ERROR(w, http.StatusUnauthorized, err)
 		return
 	}
-	repo := crud.NewRepositoryUsersCURD(db)
+	repo := crud.NewRepositoryUsersCURD(database.DB)
 	if userType == "admin" {
 		func(UserRepository repository.UserRepository) {
 			rows, err := UserRepository.UpdateByAdmin(uint32(id), user)
@@ -410,18 +410,18 @@ func DeleteUserByAdmin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	db, err := database.Connect()
-	if err != nil {
-		responses.ERROR(w, http.StatusInternalServerError, err)
-		return
-	}
+	// db, err := database.Connect()
+	// if err != nil {
+	// 	responses.ERROR(w, http.StatusInternalServerError, err)
+	// 	return
+	// }
 
 	_, userType, err := auth.ExtractClaim(r)
 	if err != nil {
 		responses.ERROR(w, http.StatusUnauthorized, err)
 		return
 	}
-	repo := crud.NewRepositoryUsersCURD(db)
+	repo := crud.NewRepositoryUsersCURD(database.DB)
 	if userType == "admin" {
 		func(UserRepository repository.UserRepository) {
 			rows, err := UserRepository.DeleteByAdmin(uint32(id), user)

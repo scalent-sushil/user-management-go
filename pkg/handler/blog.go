@@ -36,13 +36,13 @@ func CreateBlog(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	blog.AuthorID = int(userID)
-	db, err := database.Connect()
-	if err != nil {
-		responses.ERROR(w, http.StatusInternalServerError, err)
-		return
-	}
+	// db, err := database.Connect()
+	// if err != nil {
+	// 	responses.ERROR(w, http.StatusInternalServerError, err)
+	// 	return
+	// }
 
-	repo := crud.NewRepositoryBlogsCURD(db)
+	repo := crud.NewRepositoryBlogsCURD(database.DB)
 
 	func(blogRepository repository.BlogRepository) {
 		blog, err := blogRepository.Save(blog)
@@ -58,13 +58,13 @@ func CreateBlog(w http.ResponseWriter, r *http.Request) {
 // GetBlogs , all blog of user
 func GetBlogs(w http.ResponseWriter, r *http.Request) {
 
-	db, err := database.Connect()
-	if err != nil {
-		responses.ERROR(w, http.StatusInternalServerError, err)
-		return
-	}
+	// db, err := database.Connect()
+	// if err != nil {
+	// 	responses.ERROR(w, http.StatusInternalServerError, err)
+	// 	return
+	// }
 
-	repo := crud.NewRepositoryBlogsCURD(db)
+	repo := crud.NewRepositoryBlogsCURD(database.DB)
 
 	func(blogRepository repository.BlogRepository) {
 		blogs, err := blogRepository.FindAll()
@@ -86,13 +86,13 @@ func GetBlog(w http.ResponseWriter, r *http.Request) {
 		responses.ERROR(w, http.StatusBadRequest, err)
 		return
 	}
-	db, err := database.Connect()
-	if err != nil {
-		responses.ERROR(w, http.StatusInternalServerError, err)
-		return
-	}
+	// db, err := database.Connect()
+	// if err != nil {
+	// 	responses.ERROR(w, http.StatusInternalServerError, err)
+	// 	return
+	// }
 
-	repo := crud.NewRepositoryBlogsCURD(db)
+	repo := crud.NewRepositoryBlogsCURD(database.DB)
 
 	func(blogRepository repository.BlogRepository) {
 		blog, err := blogRepository.FindByID(uint32(bid))
@@ -132,13 +132,13 @@ func Updateblog(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	blog.AuthorID = int(userID)
-	db, err := database.Connect()
-	if err != nil {
-		responses.ERROR(w, http.StatusInternalServerError, err)
-		return
-	}
+	// db, err := database.Connect()
+	// if err != nil {
+	// 	responses.ERROR(w, http.StatusInternalServerError, err)
+	// 	return
+	// }
 
-	repo := crud.NewRepositoryBlogsCURD(db)
+	repo := crud.NewRepositoryBlogsCURD(database.DB)
 
 	func(blogRepository repository.BlogRepository) {
 		status, err := blogRepository.UpdateBlog(uint32(bid), blog)
@@ -160,13 +160,13 @@ func Deleteblog(w http.ResponseWriter, r *http.Request) {
 		responses.ERROR(w, http.StatusBadRequest, err)
 		return
 	}
-	db, err := database.Connect()
-	if err != nil {
-		responses.ERROR(w, http.StatusInternalServerError, err)
-		return
-	}
+	// db, err := database.Connect()
+	// if err != nil {
+	// 	responses.ERROR(w, http.StatusInternalServerError, err)
+	// 	return
+	// }
 
-	repo := crud.NewRepositoryBlogsCURD(db)
+	repo := crud.NewRepositoryBlogsCURD(database.DB)
 
 	func(blogRepository repository.BlogRepository) {
 		str, err := blogRepository.DeleteBlog(uint32(bid))

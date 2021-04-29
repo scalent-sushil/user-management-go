@@ -1,19 +1,29 @@
 package database
 
 import (
-	"github.com/scalent-sushil/user-management-go/cmd/config"
-
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
-//Connect this function is use to connect the database.
-func Connect() (*gorm.DB, error) {
+var DB *gorm.DB
 
-	db, err := gorm.Open(mysql.Open(config.DBURL), &gorm.Config{})
+//Connect this function is use to connect the database. (*gorm.DB, error)
+func Connect() {
 
-	if err != nil {
-		return nil, err
-	}
-	return db, nil
+	db, _ := gorm.Open(mysql.Open("root:Suchil$123@tcp(localhost:3306)/Golang?charset=utf8&parseTime=True&loc=Local"), &gorm.Config{})
+
+	// if err != nil {
+	// 	return nil, err
+	// }
+
+	sqldb, _ := db.DB()
+	// if err != nil {
+	// 	return nil, err
+	// }
+	sqldb.SetMaxIdleConns(50)
+
+	sqldb.SetMaxOpenConns(100)
+
+	DB = db
+	// return DB, nil
 }

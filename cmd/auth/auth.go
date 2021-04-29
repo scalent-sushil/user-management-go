@@ -7,7 +7,6 @@ import (
 	"github.com/scalent-sushil/user-management-go/database"
 	"github.com/scalent-sushil/user-management-go/pkg/models"
 	"github.com/scalent-sushil/user-management-go/utils/channels"
-
 	"gorm.io/gorm"
 )
 
@@ -16,17 +15,17 @@ func SignIn(email, password string) (string, error) {
 
 	user := models.User{}
 	var err error
-	var db *gorm.DB
+	// var db *gorm.DB
 	done := make(chan bool)
 
 	go func(ch chan<- bool) {
 		defer close(ch)
-		db, err = database.Connect()
-		if err != nil {
-			ch <- false
-			return
-		}
-		err = db.Debug().Model(models.User{}).Where("email = ?", email).Take(&user).Error
+		// db, err = database.Connect()
+		// if err != nil {
+		// 	ch <- false
+		// 	return
+		// }
+		err = database.DB.Debug().Model(models.User{}).Where("email = ?", email).Take(&user).Error
 		if err != nil {
 			ch <- false
 			return
@@ -59,17 +58,17 @@ func SignUp(email, password string) (string, error) {
 	user.Password = password
 	user.Status = "Activated"
 	var err error
-	var db *gorm.DB
+	// var db *gorm.DB
 	done := make(chan bool)
 	go func(ch chan<- bool) {
 		defer close(ch)
-		db, err = database.Connect()
-		if err != nil {
-			ch <- false
-			return
-		}
+		// db, err = database.Connect()
+		// if err != nil {
+		// 	ch <- false
+		// 	return
+		// }
 
-		err = db.Debug().Model(&models.User{}).Create(&user).Error
+		err = database.DB.Debug().Model(&models.User{}).Create(&user).Error
 		if err != nil {
 			ch <- false
 			return
@@ -89,19 +88,19 @@ func AdminSignIn(email, password string) (string, error) {
 
 	user := models.User{}
 	var err error
-	var db *gorm.DB
+	// var db *gorm.DB
 	done := make(chan bool)
 
 	go func(ch chan<- bool) {
 		defer close(ch)
-		db, err = database.Connect()
-		if err != nil {
-			ch <- false
-			return
-		}
+		// db, err = database.Connect()
+		// if err != nil {
+		// 	ch <- false
+		// 	return
+		// }
 		// defer db.Close()
 
-		err = db.Debug().Model(models.User{}).Where("email = ? AND user_type = ? ", email, "admin").Take(&user).Error
+		err = database.DB.Debug().Model(models.User{}).Where("email = ? AND user_type = ? ", email, "admin").Take(&user).Error
 		if err != nil {
 			ch <- false
 			return
@@ -128,19 +127,19 @@ func EmailPassword(email string) bool {
 
 	user := models.User{}
 	var err error
-	var db *gorm.DB
+	// var db *gorm.DB
 	done := make(chan bool)
 
 	go func(ch chan<- bool) {
 		defer close(ch)
-		db, err = database.Connect()
-		if err != nil {
-			ch <- false
-			return
-		}
+		// db, err = database.Connect()
+		// if err != nil {
+		// 	ch <- false
+		// 	return
+		// }
 		// defer db.Close()
 
-		err = db.Debug().Model(models.User{}).Where("email = ?", email).Take(&user).Error
+		err = database.DB.Debug().Model(models.User{}).Where("email = ?", email).Take(&user).Error
 		if err != nil {
 			ch <- false
 			return
@@ -166,14 +165,14 @@ func SetPassword(email, password string) bool {
 
 	go func(ch chan<- bool) {
 		defer close(ch)
-		db, err = database.Connect()
-		if err != nil {
-			ch <- false
-			return
-		}
+		// db, err = database.Connect()
+		// if err != nil {
+		// 	ch <- false
+		// 	return
+		// }
 		// defer db.Close()
 		hashedPassword, _ := security.Hash(password)
-		db = db.Debug().Model(models.User{}).Where("email = ?", email).UpdateColumns(
+		db = database.DB.Debug().Model(models.User{}).Where("email = ?", email).UpdateColumns(
 			map[string]interface{}{
 				"password": hashedPassword,
 			},
