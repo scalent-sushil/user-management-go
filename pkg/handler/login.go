@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/go-playground/validator"
 	"github.com/scalent-sushil/user-management-go/cmd/auth"
 	"github.com/scalent-sushil/user-management-go/cmd/responses"
 	"github.com/scalent-sushil/user-management-go/cmd/security"
@@ -31,11 +30,11 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	user.Prepare()
-	validate := validator.New()
-	err = validate.Struct(user)
-	if err != nil {
-		fmt.Println(err.Error())
-	}
+	// validate := validator.New()
+	// err = validate.Struct(user)
+	// if err != nil {
+	// 	fmt.Println(err.Error())
+	// }
 	// err = user.Validate("login")
 	// if err != nil {
 	// 	responses.ERROR(w, http.StatusUnprocessableEntity, err)
@@ -62,11 +61,11 @@ func Registration(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	user.Prepare()
-	validate := validator.New()
-	err = validate.Struct(user)
-	if err != nil {
-		fmt.Println(err.Error())
-	}
+	// validate := validator.New()
+	// err = validate.Struct(user)
+	// if err != nil {
+	// 	fmt.Println(err.Error())
+	// }
 	// err = user.Validate("login")
 	// if err != nil {
 	// 	responses.ERROR(w, http.StatusUnprocessableEntity, err)
@@ -97,11 +96,11 @@ func AdminLogin(w http.ResponseWriter, r *http.Request) {
 	}
 
 	user.Prepare()
-	validate := validator.New()
-	err = validate.Struct(user)
-	if err != nil {
-		fmt.Println(err.Error())
-	}
+	// validate := validator.New()
+	// err = validate.Struct(user)
+	// if err != nil {
+	// 	fmt.Println(err.Error())
+	// }
 	// err = user.Validate("login")
 	// if err != nil {
 	// 	responses.ERROR(w, http.StatusUnprocessableEntity, err)
