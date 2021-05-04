@@ -23,7 +23,15 @@ func Connect() {
 	sqldb.SetMaxIdleConns(20)
 
 	sqldb.SetMaxOpenConns(100)
-
 	DB = db
 	// return DB, nil
+	if err != nil {
+		return nil, err
+	}
+
+	// db.DB().SetMaxIdleConns(10)
+
+	// db.DB().SetMaxOpenConns(100)
+
+	return db, nil
 }
