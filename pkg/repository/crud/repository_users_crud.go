@@ -2,11 +2,9 @@ package crud
 
 import (
 	"errors"
-	"fmt"
 
 	"github.com/scalent-sushil/user-management-go/cmd/security"
 	"github.com/scalent-sushil/user-management-go/pkg/models"
-	"github.com/scalent-sushil/user-management-go/utils/channels"
 
 	"gorm.io/gorm"
 )
@@ -23,83 +21,48 @@ func NewRepositoryUsersCURD(db *gorm.DB) *repositoryUsersCRUD {
 
 func (r *repositoryUsersCRUD) Save(user models.User) (models.User, error) {
 	var err error
-	done := make(chan bool)
-	go func(ch chan<- bool) {
-		defer close(ch)
-		err = r.db.Debug().Model(&models.User{}).Create(&user).Error
-		if err != nil {
-			ch <- false
-			return
-		}
-		ch <- true
-	}(done)
-	if channels.OK(done) {
-		return user, nil
+	err = r.db.Debug().Model(&models.User{}).Create(&user).Error
+	if err != nil {
+		return models.User{}, err
 	}
-	return models.User{}, err
+
+	return user, nil
 }
 
 func (r *repositoryUsersCRUD) FindAll() ([]models.User, error) {
 	var err error
 	users := []models.User{}
-	done := make(chan bool)
-	go func(ch chan<- bool) {
-		defer close(ch)
-		err = r.db.Debug().Model(&models.User{}).Where("user_type = ?", "user").Limit(10).Find(&users).Error
-		if err != nil {
-			ch <- false
-			return
-		}
-		ch <- true
-	}(done)
-	if channels.OK(done) {
-		return users, nil
+	err = r.db.Debug().Model(&models.User{}).Where("user_type = ?", "user").Limit(10).Find(&users).Error
+	if err != nil {
+		return nil, err
 	}
-	return nil, err
+	return users, nil
 }
 
 func (r *repositoryUsersCRUD) User(id uint32) (models.User, error) {
 	var err error
 	user := models.User{}
-	done := make(chan bool)
-	go func(ch chan<- bool) {
-		defer close(ch)
-		err = r.db.Debug().Model(&models.User{}).Where("id = ?", id).Limit(1).Find(&user).Error
-		if err != nil {
-			ch <- false
-			return
-		}
-		ch <- true
-	}(done)
-	if channels.OK(done) {
-		return user, nil
+	err = r.db.Debug().Model(&models.User{}).Where("id = ?", id).Limit(1).Find(&user).Error
+	if err != nil {
+		return models.User{}, err
 	}
 	// if gorm.ErrRecordNotFound.Error(err) {
 	// 	return models.User{}, errors.New("Record not found")
 	// }
-	return models.User{}, err
+	return user, nil
 }
 
 func (r *repositoryUsersCRUD) Admin() (models.User, error) {
 	var err error
 	user := models.User{}
-	done := make(chan bool)
-	go func(ch chan<- bool) {
-		defer close(ch)
-		err = r.db.Debug().Model(&models.User{}).Where("user_type = ?", "admin").Limit(1).Find(&user).Error
-		if err != nil {
-			ch <- false
-			return
-		}
-		ch <- true
-	}(done)
-	if channels.OK(done) {
-		return user, nil
+	err = r.db.Debug().Model(&models.User{}).Where("user_type = ?", "admin").Limit(1).Find(&user).Error
+	if err != nil {
+		return models.User{}, err
 	}
 	// if gorm.ErrRecordNotFound.Error(err) {
 	// 	return models.User{}, errors.New("Record not found")
 	// }
-	return models.User{}, err
+	return user, nil
 }
 
 func (r *repositoryUsersCRUD) FindUserByEmail(email string) (models.User, error) {
@@ -108,21 +71,11 @@ func (r *repositoryUsersCRUD) FindUserByEmail(email string) (models.User, error)
 
 	var err error
 	user := models.User{}
-	done := make(chan bool)
-	go func(ch chan<- bool) {
-		defer close(ch)
-		err = r.db.Debug().Model(&models.User{}).Where("email = ?", email).Limit(1).Find(&user).Error
-		if err != nil {
-			fmt.Println("hello1")
-			ch <- false
-			return
-		}
-		ch <- true
-	}(done)
-	if channels.OK(done) {
-		return user, nil
+	err = r.db.Debug().Model(&models.User{}).Where("email = ?", email).Limit(1).Find(&user).Error
+	if err != nil {
+		return user, errors.New("Record not found")
 	}
-	return user, errors.New("Record not found")
+	return user, nil
 }
 
 // FindUserById function is use to find user by id and this function is only call by admin
@@ -130,26 +83,14 @@ func (r *repositoryUsersCRUD) FindUserById(id uint32) (models.User, error) {
 
 	var err error
 	user := models.User{}
-	done := make(chan bool)
-	go func(ch chan<- bool) {
-		defer close(ch)
-		err = r.db.Debug().Model(&models.User{}).Where("id = ?", id).Limit(1).Find(&user).Error
-
-		if err != nil {
-			ch <- false
-			return
-		}
-		if user.ID == 0 {
-			ch <- false
-			return
-		}
-		ch <- true
-	}(done)
-	if channels.OK(done) {
-
-		return user, nil
+	err = r.db.Debug().Model(&models.User{}).Where("id = ?", id).Limit(1).Find(&user).Error
+	if err != nil {
+		return user, errors.New("Record not found")
 	}
-	return user, errors.New("Record not found")
+	if user.ID == 0 {
+		return user, errors.New("Record not found")
+	}
+	return user, nil
 }
 
 func (r *repositoryUsersCRUD) UpdateByAdmin(id uint32, user models.User) (string, error) {
@@ -157,19 +98,12 @@ func (r *repositoryUsersCRUD) UpdateByAdmin(id uint32, user models.User) (string
 	// This function is use to upadte admin name
 
 	var rs *gorm.DB
-	done := make(chan bool)
-	go func(ch chan<- bool) {
-		defer close(ch)
-		rs = r.db.Debug().Model(&models.User{}).Where("id = ?", id).UpdateColumn("name", user.Name)
-		ch <- true
-	}(done)
-	if channels.OK(done) {
-		if rs.Error != nil {
-			return "", rs.Error
-		}
-		return "successfully updated", nil
+	rs = r.db.Debug().Model(&models.User{}).Where("id = ?", id).UpdateColumn("name", user.Name)
+	if rs.Error != nil {
+		return "", rs.Error
 	}
-	return "", rs.Error
+
+	return "successfully updated", nil
 }
 
 func (r *repositoryUsersCRUD) ResetPassword(id uint32, user models.User) (string, error) {
@@ -178,19 +112,11 @@ func (r *repositoryUsersCRUD) ResetPassword(id uint32, user models.User) (string
 
 	var rs *gorm.DB
 	hashedPassword, _ := security.Hash(user.Password)
-	done := make(chan bool)
-	go func(ch chan<- bool) {
-		defer close(ch)
-		rs = r.db.Debug().Model(&models.User{}).Where("id = ?", id).UpdateColumn("password", hashedPassword)
-		ch <- true
-	}(done)
-	if channels.OK(done) {
-		if rs.Error != nil {
-			return "", rs.Error
-		}
-		return "successfully change the password", nil
+	rs = r.db.Debug().Model(&models.User{}).Where("id = ?", id).UpdateColumn("password", hashedPassword)
+	if rs.Error != nil {
+		return "", rs.Error
 	}
-	return "", rs.Error
+	return "successfully change the password", nil
 }
 
 func (r *repositoryUsersCRUD) Update(id uint32, user models.User) (string, error) {
@@ -198,19 +124,12 @@ func (r *repositoryUsersCRUD) Update(id uint32, user models.User) (string, error
 	// This function is use to upadte user name
 
 	var rs *gorm.DB
-	done := make(chan bool)
-	go func(ch chan<- bool) {
-		defer close(ch)
-		rs = r.db.Debug().Model(&models.User{}).Where("id = ?", id).UpdateColumn("name", user.Name)
-		ch <- true
-	}(done)
-	if channels.OK(done) {
-		if rs.Error != nil {
-			return "", rs.Error
-		}
-		return " successfully changed the name", nil
+
+	rs = r.db.Debug().Model(&models.User{}).Where("id = ?", id).UpdateColumn("name", user.Name)
+	if rs.Error != nil {
+		return "", rs.Error
 	}
-	return "", rs.Error
+	return "successfully changed the name", nil
 }
 
 func (r *repositoryUsersCRUD) UploadPic(id uint32, user models.User) (string, error) {
@@ -218,19 +137,11 @@ func (r *repositoryUsersCRUD) UploadPic(id uint32, user models.User) (string, er
 	// This function is use to upadte user profile pic
 
 	var rs *gorm.DB
-	done := make(chan bool)
-	go func(ch chan<- bool) {
-		defer close(ch)
-		rs = r.db.Debug().Model(&models.User{}).Where("id = ?", id).UpdateColumn("profile_pic", user.ProfilePic)
-		ch <- true
-	}(done)
-	if channels.OK(done) {
-		if rs.Error != nil {
-			return "", rs.Error
-		}
-		return "successfully changed the profile-pic", nil
+	rs = r.db.Debug().Model(&models.User{}).Where("id = ?", id).UpdateColumn("profile_pic", user.ProfilePic)
+	if rs.Error != nil {
+		return "", rs.Error
 	}
-	return "", rs.Error
+	return "successfully changed the profile-pic", nil
 }
 
 func (r *repositoryUsersCRUD) DeleteByAdmin(id uint32, user models.User) (string, error) {
@@ -238,19 +149,12 @@ func (r *repositoryUsersCRUD) DeleteByAdmin(id uint32, user models.User) (string
 	// this function is use to deactivate user and it is only perform by admin
 
 	var rs *gorm.DB
-	done := make(chan bool)
-	go func(ch chan<- bool) {
-		defer close(ch)
-		rs = r.db.Debug().Model(&models.User{}).Where("id = ?", id).UpdateColumn("status", user.Status)
-		ch <- true
-	}(done)
-	if channels.OK(done) {
-		if rs.Error != nil {
-			return "", rs.Error
-		}
-		return "successful", nil
+
+	rs = r.db.Debug().Model(&models.User{}).Where("id = ?", id).UpdateColumn("status", user.Status)
+	if rs.Error != nil {
+		return "", rs.Error
 	}
-	return "", rs.Error
+	return "successful", nil
 }
 
 // func (r *repositoryUsersCRUD) Delete(id uint32) (int64, error) {

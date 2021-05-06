@@ -8,10 +8,10 @@ import (
 	"time"
 
 	"github.com/scalent-sushil/user-management-go/cmd/auth"
-	"github.com/scalent-sushil/user-management-go/cmd/responses"
 	"github.com/scalent-sushil/user-management-go/cmd/security"
 	"github.com/scalent-sushil/user-management-go/pkg/models"
 	"github.com/scalent-sushil/user-management-go/utils/email"
+	"github.com/scalent-sushil/user-management-go/utils/responses"
 )
 
 // Login fuction is use to login for user  .
