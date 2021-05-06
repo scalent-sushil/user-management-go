@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-
+	"github.com/scalent-sushil/user-management-go/cmd/auto"
 	"github.com/scalent-sushil/user-management-go/cmd/config"
 
 	"github.com/scalent-sushil/user-management-go/cmd/router"
