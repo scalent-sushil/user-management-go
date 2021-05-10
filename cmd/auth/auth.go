@@ -1,13 +1,9 @@
 package auth
 
 import (
-	"fmt"
-
-	"github.com/scalent-sushil/user-management-go/cmd/security"
 	"github.com/scalent-sushil/user-management-go/database"
 	"github.com/scalent-sushil/user-management-go/pkg/models"
-	"github.com/scalent-sushil/user-management-go/utils/channels"
-	"gorm.io/gorm"
+	"github.com/scalent-sushil/user-management-go/utils"
 )
 
 // SignIn fuction is use to signIn only if user is active
@@ -16,37 +12,24 @@ func SignIn(email, password string) (string, error) {
 	user := models.User{}
 	var err error
 	// var db *gorm.DB
-	done := make(chan bool)
-
-	go func(ch chan<- bool) {
-		defer close(ch)
-		// db, err = database.Connect()
-		// if err != nil {
-		// 	ch <- false
-		// 	return
-		// }
-		err = database.DB.Debug().Model(models.User{}).Where("email = ?", email).Take(&user).Error
-		if err != nil {
-			ch <- false
-			return
-		}
-		if user.Status == "Deactivated" {
-			ch <- false
-			return
-		}
-		pass := security.VerifyPassword(user.Password, password)
-		if pass == false {
-			ch <- false
-			return
-		}
-		ch <- true
-	}(done)
-
-	if channels.OK(done) {
-		return CreateToken(uint32(user.ID), user.UserType)
+	// db, err = database.Connect()
+	// if err != nil {
+	// 	ch <- false
+	// 	return
+	// }
+	err = database.DB.Debug().Model(models.User{}).Where("email = ?", email).Take(&user).Error
+	if err != nil {
+		return "", err
 	}
-	fmt.Println(err)
-	return "", err
+	if user.Status == "Deactivated" {
+		return "", err
+	}
+	pass := utils.VerifyPassword(user.Password, password)
+	if pass == false {
+		return "", err
+	}
+
+	return CreateToken(uint32(user.ID), user.UserType)
 }
 
 //SignUp function is use to create new user when user is registering himself
@@ -58,29 +41,13 @@ func SignUp(email, password string) (string, error) {
 	user.Password = password
 	user.Status = "Activated"
 	var err error
-	// var db *gorm.DB
-	done := make(chan bool)
-	go func(ch chan<- bool) {
-		defer close(ch)
-		// db, err = database.Connect()
-		// if err != nil {
-		// 	ch <- false
-		// 	return
-		// }
 
-		err = database.DB.Debug().Model(&models.User{}).Create(&user).Error
-		if err != nil {
-			ch <- false
-			return
-		}
-		ch <- true
-	}(done)
-
-	if channels.OK(done) {
-		return CreateToken(uint32(user.ID), user.UserType)
+	err = database.DB.Debug().Model(&models.User{}).Create(&user).Error
+	if err != nil {
+		return "", err
 	}
-	fmt.Println(err)
-	return "", err
+
+	return CreateToken(uint32(user.ID), user.UserType)
 }
 
 //AdminSignIn is signIn Api for admin
@@ -89,35 +56,16 @@ func AdminSignIn(email, password string) (string, error) {
 	user := models.User{}
 	var err error
 	// var db *gorm.DB
-	done := make(chan bool)
-
-	go func(ch chan<- bool) {
-		defer close(ch)
-		// db, err = database.Connect()
-		// if err != nil {
-		// 	ch <- false
-		// 	return
-		// }
-		// defer db.Close()
-
-		err = database.DB.Debug().Model(models.User{}).Where("email = ? AND user_type = ? ", email, "admin").Take(&user).Error
-		if err != nil {
-			ch <- false
-			return
-		}
-		pass := security.VerifyPassword(user.Password, password)
-		if pass == false {
-			ch <- false
-			return
-		}
-		ch <- true
-	}(done)
-
-	if channels.OK(done) {
-		return CreateToken(uint32(user.ID), user.UserType)
+	err = database.DB.Debug().Model(models.User{}).Where("email = ? AND user_type = ? ", email, "admin").Take(&user).Error
+	if err != nil {
+		return "", err
 	}
-	fmt.Println(err)
-	return "", err
+	pass := utils.VerifyPassword(user.Password, password)
+	if pass == false {
+		return "", err
+	}
+
+	return CreateToken(uint32(user.ID), user.UserType)
 }
 
 // EmailPassword to recover/new password
@@ -128,30 +76,11 @@ func EmailPassword(email string) bool {
 	user := models.User{}
 	var err error
 	// var db *gorm.DB
-	done := make(chan bool)
-
-	go func(ch chan<- bool) {
-		defer close(ch)
-		// db, err = database.Connect()
-		// if err != nil {
-		// 	ch <- false
-		// 	return
-		// }
-		// defer db.Close()
-
-		err = database.DB.Debug().Model(models.User{}).Where("email = ?", email).Take(&user).Error
-		if err != nil {
-			ch <- false
-			return
-		}
-
-		ch <- true
-	}(done)
-
-	if channels.OK(done) {
-		return true
+	err = database.DB.Debug().Model(models.User{}).Where("email = ?", email).Take(&user).Error
+	if err != nil {
+		return false
 	}
-	return false
+	return true
 }
 
 // SetPassword is fuction call after email password
@@ -160,33 +89,15 @@ func SetPassword(email, password string) bool {
 	//this function is use set new password after user is sent opt on its email
 
 	var err error
-	var db *gorm.DB
-	done := make(chan bool)
-
-	go func(ch chan<- bool) {
-		defer close(ch)
-		// db, err = database.Connect()
-		// if err != nil {
-		// 	ch <- false
-		// 	return
-		// }
-		// defer db.Close()
-		hashedPassword, _ := security.Hash(password)
-		db = database.DB.Debug().Model(models.User{}).Where("email = ?", email).UpdateColumns(
-			map[string]interface{}{
-				"password": hashedPassword,
-			},
-		)
-		if err != nil {
-			ch <- false
-			return
-		}
-
-		ch <- true
-	}(done)
-
-	if channels.OK(done) {
-		return true
+	hashedPassword, _ := utils.GenerateHash(password)
+	err = database.DB.Debug().Model(models.User{}).Where("email = ?", email).UpdateColumns(
+		map[string]interface{}{
+			"password": hashedPassword,
+		},
+	).Error
+	if err != nil {
+		return false
 	}
-	return false
+
+	return true
 }

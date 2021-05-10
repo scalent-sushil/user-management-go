@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/badoux/checkmail"
-	"github.com/scalent-sushil/user-management-go/cmd/security"
+	"github.com/scalent-sushil/user-management-go/utils"
 	"gorm.io/gorm"
 )
 
@@ -17,10 +17,10 @@ type User struct {
 	ID         int       `gorm:"prinmary_key;auto_increment" json:"id" validate:"nonzero"`
 	Name       string    `gorm:"size:40;not null;" json:"name" validate:"required,max:30"`
 	Email      string    `gorm:"size:60;not null;unique" json:"email" validate:"required,email"`
-	Password   string    `gorm:"size:30;not null" json:"required,password"`
+	Password   string    `gorm:"size:30;not null" json:"password" validate:"required,password"`
 	ProfilePic string    `gorm:"column:profile_pic" json:"profile_pic"`
 	UserType   string    `gorm:"column:user_type;default:'user'" json:"user_type" validate:"isdefault"`
-	Status     string    `json:"status validate:"isdefault"`
+	Status     string    `json:"status"`
 	CreatedAt  time.Time `gorm:"default:current_timestamp()" json:"created_at"`
 	UpdatedAt  time.Time `gorm:"default:current_timestamp()" json:"updated_at"`
 	// Blog       []Blog    `gorm:"foreignkey:AuthorID"json:"Blog"`
@@ -29,7 +29,7 @@ type User struct {
 // BeforeSave this function is of gorm in this fuction we convert the password into hash
 //before we save it into database.
 func (u *User) BeforeSave(tx *gorm.DB) (err error) {
-	hashedPassword, err := security.Hash(u.Password)
+	hashedPassword, err := utils.GenerateHash(u.Password)
 	fmt.Println(hashedPassword)
 	fmt.Println(u.Password)
 	if err != nil {

@@ -1,8 +1,8 @@
 package main
 
 import (
-	api "github.com/scalent-sushil/user-management-go/cmd"
 	"github.com/scalent-sushil/user-management-go/database"
+	api "github.com/scalent-sushil/user-management-go/pkg"
 )
 
 func main() {

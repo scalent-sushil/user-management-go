@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/scalent-sushil/user-management-go/cmd/auth"
-	"github.com/scalent-sushil/user-management-go/cmd/responses"
+	"github.com/scalent-sushil/user-management-go/utils/responses"
 )
 
 // SetMiddlewareLogger this function is use to display method ,host ,etc to the user
