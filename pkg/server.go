@@ -4,17 +4,32 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"github.com/scalent-sushil/user-management-go/cmd/auto"
-	"github.com/scalent-sushil/user-management-go/cmd/config"
+	"os"
+	"strconv"
+
+	// "github.com/scalent-sushil/user-management-go/cmd/auto"
 
 	"github.com/scalent-sushil/user-management-go/cmd/router"
 )
 
+var (
+	PORT      = 0
+	SECRETKEY []byte
+	DBURL     = ""
+	// DBDRIVER = ""
+)
+
 func Run() {
-	config.Load()
+	var err error
+	PORT, err = strconv.Atoi(os.Getenv("API_PORT"))
+	if err != nil {
+		PORT = 8080
+	}
+	DBURL = fmt.Sprintf(os.Getenv("DB_URL"))
+	SECRETKEY = []byte(os.Getenv("API_SECRET"))
 	// auto.Load()
-	fmt.Printf("\n\tListening [::]:%d\n", config.PORT)
-	listen(config.PORT)
+	fmt.Printf("\n\tListening [::]:%d\n", PORT)
+	listen(PORT)
 }
 
 func listen(port int) {

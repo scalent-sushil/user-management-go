@@ -25,7 +25,6 @@ func Load() {
 	// 	// 	log.Fatal(err)
 	// 	// }
 
-
 	// for i, _ := range users {
 	// 	err := database.DB.Debug().Model(&models.User{}).Create(&users[i]).Error
 	// 	if err != nil {
@@ -41,21 +40,22 @@ func Load() {
 	// 	// 	log.Fatal(err)
 	// 	// }
 	// 	console.Pretty(users)
-	}
-	// 	for i, _ := range users {
-	// 		err = db.Debug().Model(&models.User{}).Create(&users[i]).Error
-	// 		if err != nil {
-	// 			log.Fatal(err)
-	// 		}
-	// 		// blogs[i].AuthorID = users[i].ID
-	// 		// err = db.Debug().Model(&models.Blog{}).Create(&blogs).Error
-	// 		// if err != nil {
-	// 		// 	log.Fatal(err)
-	// 		// }
-	// 		// err = db.Debug().Model(&blogs[i]).Related(&blogs[i].AuthorName).Error
-	// 		// if err != nil {
-	// 		// 	log.Fatal(err)
-	// 		// }
-	// 		console.Pretty(users)
-	// 	}
 }
+
+// 	for i, _ := range users {
+// 		err = db.Debug().Model(&models.User{}).Create(&users[i]).Error
+// 		if err != nil {
+// 			log.Fatal(err)
+// 		}
+// 		// blogs[i].AuthorID = users[i].ID
+// 		// err = db.Debug().Model(&models.Blog{}).Create(&blogs).Error
+// 		// if err != nil {
+// 		// 	log.Fatal(err)
+// 		// }
+// 		// err = db.Debug().Model(&blogs[i]).Related(&blogs[i].AuthorName).Error
+// 		// if err != nil {
+// 		// 	log.Fatal(err)
+// 		// }
+// 		console.Pretty(users)
+// 	}
+// }

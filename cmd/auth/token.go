@@ -3,11 +3,12 @@ package auth
 import (
 	"fmt"
 	"net/http"
+	"os"
 	"strconv"
 	"strings"
 	"time"
 
-	"github.com/scalent-sushil/user-management-go/cmd/config"
+	// "github.com/scalent-sushil/user-management-go/cmd/config"
 	"github.com/scalent-sushil/user-management-go/utils/console"
 
 	jwt "github.com/dgrijalva/jwt-go"
@@ -21,7 +22,7 @@ func CreateToken(userID uint32, userType string) (string, error) {
 	claims["user_type"] = userType
 	claims["exp"] = time.Now().Add(time.Minute * 30).Unix()
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	return token.SignedString(config.SECRETKEY)
+	return token.SignedString([]byte(os.Getenv("API_SECRET")))
 }
 
 // TokenValid it valid token
@@ -32,7 +33,7 @@ func TokenValid(r *http.Request) error {
 			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
 		}
 
-		return config.SECRETKEY, nil
+		return []byte(os.Getenv("API_SECRET")), nil
 	})
 
 	if err != nil {
@@ -67,7 +68,7 @@ func ExtractClaim(r *http.Request) (uint32, string, error) {
 			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
 		}
 
-		return config.SECRETKEY, nil
+		return []byte(os.Getenv("API_SECRET")), nil
 	})
 
 	if err != nil {

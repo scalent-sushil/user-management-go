@@ -1,11 +1,14 @@
 package database
 
 import (
+	"fmt"
+
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
 var DB *gorm.DB
+var err error
 
 //Connect this function is use to connect the database. (*gorm.DB, error)
 func Connect() {
@@ -26,12 +29,6 @@ func Connect() {
 	DB = db
 	// return DB, nil
 	if err != nil {
-		return nil, err
+		fmt.Println("Error while connecting database")
 	}
-
-	// db.DB().SetMaxIdleConns(10)
-
-	// db.DB().SetMaxOpenConns(100)
-
-	return db, nil
 }

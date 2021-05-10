@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/badoux/checkmail"
-	"github.com/scalent-sushil/user-management-go/cmd/security"
+	"github.com/scalent-sushil/user-management-go/utils"
 	"gorm.io/gorm"
 )
 
@@ -29,7 +29,7 @@ type User struct {
 // BeforeSave this function is of gorm in this fuction we convert the password into hash
 //before we save it into database.
 func (u *User) BeforeSave(tx *gorm.DB) (err error) {
-	hashedPassword, err := security.Hash(u.Password)
+	hashedPassword, err := utils.GenerateHash(u.Password)
 	fmt.Println(hashedPassword)
 	fmt.Println(u.Password)
 	if err != nil {

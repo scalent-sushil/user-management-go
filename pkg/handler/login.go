@@ -8,8 +8,8 @@ import (
 	"time"
 
 	"github.com/scalent-sushil/user-management-go/cmd/auth"
-	"github.com/scalent-sushil/user-management-go/cmd/security"
 	"github.com/scalent-sushil/user-management-go/pkg/models"
+	"github.com/scalent-sushil/user-management-go/utils"
 	"github.com/scalent-sushil/user-management-go/utils/email"
 	"github.com/scalent-sushil/user-management-go/utils/responses"
 )
@@ -133,7 +133,7 @@ func ForgotPassword(w http.ResponseWriter, r *http.Request) {
 	var otp string
 	if user == true {
 		fmt.Println("user exist")
-		otp, err = security.GenerateCode("sakldgofsagofiusahf", time.Now())
+		otp, err = utils.GenerateCode("sakldgofsagofiusahf", time.Now())
 		// otp = security.GenerateOTP()
 		email.SendEmail2(fPass.Email, otp)
 		if err != nil {
@@ -169,7 +169,7 @@ func NewPassword(w http.ResponseWriter, r *http.Request) {
 		responses.ERROR(w, http.StatusUnprocessableEntity, err)
 		return
 	}
-	conform := security.Validate(otp, "sakldgofsagofiusahf")
+	conform := utils.Validate(otp, "sakldgofsagofiusahf")
 	fmt.Println(users)
 	fmt.Println(conform)
 	if users == true && conform == true {

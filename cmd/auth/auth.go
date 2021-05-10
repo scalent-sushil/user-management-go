@@ -1,9 +1,9 @@
 package auth
 
 import (
-	"github.com/scalent-sushil/user-management-go/cmd/security"
 	"github.com/scalent-sushil/user-management-go/database"
 	"github.com/scalent-sushil/user-management-go/pkg/models"
+	"github.com/scalent-sushil/user-management-go/utils"
 )
 
 // SignIn fuction is use to signIn only if user is active
@@ -24,7 +24,7 @@ func SignIn(email, password string) (string, error) {
 	if user.Status == "Deactivated" {
 		return "", err
 	}
-	pass := security.VerifyPassword(user.Password, password)
+	pass := utils.VerifyPassword(user.Password, password)
 	if pass == false {
 		return "", err
 	}
@@ -60,7 +60,7 @@ func AdminSignIn(email, password string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	pass := security.VerifyPassword(user.Password, password)
+	pass := utils.VerifyPassword(user.Password, password)
 	if pass == false {
 		return "", err
 	}
@@ -89,7 +89,7 @@ func SetPassword(email, password string) bool {
 	//this function is use set new password after user is sent opt on its email
 
 	var err error
-	hashedPassword, _ := security.Hash(password)
+	hashedPassword, _ := utils.GenerateHash(password)
 	err = database.DB.Debug().Model(models.User{}).Where("email = ?", email).UpdateColumns(
 		map[string]interface{}{
 			"password": hashedPassword,

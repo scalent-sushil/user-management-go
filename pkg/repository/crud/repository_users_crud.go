@@ -3,8 +3,8 @@ package crud
 import (
 	"errors"
 
-	"github.com/scalent-sushil/user-management-go/cmd/security"
 	"github.com/scalent-sushil/user-management-go/pkg/models"
+	"github.com/scalent-sushil/user-management-go/utils"
 
 	"gorm.io/gorm"
 )
@@ -111,7 +111,7 @@ func (r *repositoryUsersCRUD) ResetPassword(id uint32, user models.User) (string
 	// This function is use to reset Password for user when he forgot password
 
 	var rs *gorm.DB
-	hashedPassword, _ := security.Hash(user.Password)
+	hashedPassword, _ := utils.GenerateHash(user.Password)
 	rs = r.db.Debug().Model(&models.User{}).Where("id = ?", id).UpdateColumn("password", hashedPassword)
 	if rs.Error != nil {
 		return "", rs.Error
